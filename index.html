@@ -6,11 +6,14 @@
     <title>Geometry Island: Εργαστήρι Όγκων 3D</title>
     <style>
         :root {
-            --bg-dark: #0b1120;
-            --panel-bg: rgba(15, 23, 42, 0.85);
+            --bg-dark: #070d19;
+            --panel-bg: rgba(13, 21, 38, 0.88);
+            --card-bg: rgba(20, 32, 56, 0.7);
             --accent: #10b981;
             --accent-hover: #059669;
             --cyan: #38bdf8;
+            --pink: #f43f5e;
+            --amber: #f59e0b;
             --gold: #fbbf24;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -50,109 +53,194 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 24px;
-            background: linear-gradient(to bottom, rgba(11, 17, 32, 0.9), transparent);
             pointer-events: none;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             gap: 12px;
         }
 
+        .brand {
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            padding: 10px 18px;
+            border-radius: 16px;
+        }
+
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 10px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid var(--accent);
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--cyan);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            color: var(--accent);
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            color: var(--cyan);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+        }
+
+        .brand-text small {
+            display: block;
+            font-size: 10px;
+            color: var(--cyan);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
         .brand-text h1 {
             font-size: 18px;
-            letter-spacing: 0.5px;
+            font-weight: 700;
             color: var(--text-main);
         }
 
-        .brand-text small {
-            font-size: 11px;
-            color: var(--cyan);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .stats-badge {
+        .header-controls {
             pointer-events: auto;
-            background: var(--panel-bg);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 999px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 14px;
+            gap: 10px;
         }
 
-        .stars-count {
-            color: var(--gold);
-        }
-
-        /* Mission Panel */
-        .control-panel {
-            position: absolute;
-            top: 84px;
-            right: 24px;
-            width: 340px;
-            max-width: calc(100vw - 48px);
+        .cam-group {
+            display: flex;
             background: var(--panel-bg);
             border: 1px solid var(--border);
             backdrop-filter: blur(12px);
-            border-radius: 16px;
-            padding: 20px;
-            z-index: 10;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            padding: 4px;
+            border-radius: 999px;
+            gap: 4px;
         }
 
-        .mission-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 8px;
-            background: rgba(30, 41, 59, 0.7);
-            border: 1px solid transparent;
-            border-radius: 8px;
+        .cam-btn {
+            background: transparent;
+            border: none;
             color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 999px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .tab-btn.active {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: var(--cyan);
+        .cam-btn:hover, .cam-btn.active {
+            background: rgba(56, 189, 248, 0.18);
             color: var(--text-main);
         }
 
-        .tab-btn.completed::after {
-            content: ' ✓';
-            color: var(--accent);
+        .stars-badge {
+            background: var(--panel-bg);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .mission-header {
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            color: var(--text-main);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--cyan);
+            background: rgba(56, 189, 248, 0.15);
+            transform: rotate(30deg);
+        }
+
+        /* Mission Panel */
+        .control-panel {
+            position: absolute;
+            top: 86px;
+            right: 24px;
+            width: 370px;
+            max-width: calc(100vw - 48px);
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 20px;
+            z-index: 10;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .mission-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
             margin-bottom: 16px;
+            background: rgba(7, 13, 25, 0.6);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            padding: 8px 6px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .tab-btn.active {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+
+        .tab-stars {
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .tab-btn.solved .tab-stars {
+            color: var(--gold);
+        }
+
+        .mission-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .mission-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
         .mission-tag {
@@ -163,9 +251,26 @@
             font-weight: 700;
         }
 
+        .hint-btn {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: var(--gold);
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .hint-btn:hover {
+            background: rgba(245, 158, 11, 0.28);
+        }
+
         .mission-title {
             font-size: 18px;
-            margin: 4px 0 8px;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
 
         .mission-desc {
@@ -174,33 +279,73 @@
             line-height: 1.5;
         }
 
+        .mission-desc strong {
+            color: var(--cyan);
+        }
+
+        .hint-box {
+            margin-top: 10px;
+            padding: 8px 10px;
+            background: rgba(245, 158, 11, 0.12);
+            border-left: 3px solid var(--gold);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #fde68a;
+            display: none;
+        }
+
+        /* Sliders */
         .sliders-group {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 18px;
-            padding: 14px;
-            background: rgba(11, 17, 32, 0.6);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .slider-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            background: var(--card-bg);
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .slider-label {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        .slider-val {
-            font-weight: 700;
-            color: var(--cyan);
+        .dim-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot-l { background: var(--pink); box-shadow: 0 0 8px var(--pink); }
+        .dot-w { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+        .dot-h { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+        .val-pill {
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .pill-l { background: rgba(244, 63, 94, 0.18); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+        .pill-w { background: rgba(56, 189, 248, 0.18); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.3); }
+        .pill-h { background: rgba(16, 185, 129, 0.18); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
 
         input[type="range"] {
             -webkit-appearance: none;
@@ -213,28 +358,23 @@
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
-            background: var(--cyan);
+            background: var(--text-main);
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-            transition: transform 0.1s;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
         }
 
         .live-readout {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 14px;
+            padding: 12px 16px;
             background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 10px;
-            margin-bottom: 16px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 12px;
+            margin-bottom: 14px;
         }
 
         .live-readout span {
@@ -244,21 +384,21 @@
 
         .live-readout strong {
             font-size: 18px;
-            color: var(--text-main);
+            color: var(--cyan);
         }
 
         .action-btn {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             background: var(--accent);
             color: #022c22;
             font-weight: 700;
             font-size: 14px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.35);
         }
 
         .action-btn:hover {
@@ -270,7 +410,7 @@
         .feedback-box {
             margin-top: 12px;
             padding: 10px 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 13px;
             line-height: 1.4;
             display: none;
@@ -285,9 +425,9 @@
 
         .feedback-box.error {
             display: block;
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid var(--pink);
+            color: #fda4af;
         }
 
         footer {
@@ -297,28 +437,26 @@
             z-index: 10;
             font-size: 12px;
             color: var(--text-muted);
-            background: rgba(15, 23, 42, 0.7);
+            background: var(--panel-bg);
             padding: 8px 14px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            border: 1px solid var(--border);
             pointer-events: none;
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 720px) {
+            .cam-group { display: none; }
             .control-panel {
                 top: auto;
-                bottom: 16px;
-                right: 16px;
-                left: 16px;
+                bottom: 12px;
+                right: 12px;
+                left: 12px;
                 width: auto;
-                padding: 16px;
+                padding: 14px;
             }
-            footer {
-                display: none;
-            }
+            footer { display: none; }
         }
     </style>
-    <!-- Three.js & OrbitControls via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
@@ -328,58 +466,77 @@
 
     <header>
         <div class="brand">
-            <div class="brand-icon">📐</div>
+            <div class="brand-icon">🧊</div>
             <div class="brand-text">
-                <h1>GEOMETRY ISLAND</h1>
-                <small>Εργαστήρι Στερεομετρίας 3D</small>
+                <small>GEOMETRY ISLAND</small>
+                <h1>Εργαστήρι Όγκων</h1>
             </div>
         </div>
-        <div class="stats-badge">
-            <span>Αποστολές: <span id="completed-count">0</span>/3</span>
-            <span class="stars-count">★ <span id="stars-count">0</span>/9</span>
+
+        <div class="header-controls">
+            <div class="cam-group">
+                <button class="cam-btn active" id="cam-3d" onclick="setCameraView('3d')">3D Όψη</button>
+                <button class="cam-btn" id="cam-front" onclick="setCameraView('front')">Πρόσοψη</button>
+                <button class="cam-btn" id="cam-top" onclick="setCameraView('top')">Κάτοψη</button>
+            </div>
+            <div class="stars-badge">★ <span id="stars-count">0</span> / 9</div>
+            <button class="icon-btn" title="Επαναφορά προόδου" onclick="resetGame()">↻</button>
         </div>
     </header>
 
     <aside class="control-panel">
-        <div class="mission-tabs" id="mission-tabs">
-            <button class="tab-btn active" onclick="selectMission(0)">01</button>
-            <button class="tab-btn" onclick="selectMission(1)">02</button>
-            <button class="tab-btn" onclick="selectMission(2)">03</button>
+        <div class="mission-tabs">
+            <button class="tab-btn active" id="tab-0" onclick="selectMission(0)">
+                <span>Αποστολή 1</span>
+                <span class="tab-stars" id="tstars-0">☆☆☆</span>
+            </button>
+            <button class="tab-btn" id="tab-1" onclick="selectMission(1)">
+                <span>Αποστολή 2</span>
+                <span class="tab-stars" id="tstars-1">☆☆☆</span>
+            </button>
+            <button class="tab-btn" id="tab-2" onclick="selectMission(2)">
+                <span>Αποστολή 3</span>
+                <span class="tab-stars" id="tstars-2">☆☆☆</span>
+            </button>
         </div>
 
-        <div class="mission-header">
-            <div class="mission-tag" id="mission-tag">ΑΠΟΣΤΟΛΗ 01 / ΔΕΞΑΜΕΝΗ</div>
-            <h2 class="mission-title" id="mission-title">Ο Βασικός Όγκος</h2>
-            <p class="mission-desc" id="mission-desc">Ρύθμισε το μήκος, το πλάτος και το ύψος ώστε η δεξαμενή να έχει όγκο ακριβώς <strong>24 m³</strong>.</p>
+        <div class="mission-card">
+            <div class="mission-top-row">
+                <span class="mission-tag" id="mission-tag">ΑΠΟΣΤΟΛΗ 1 ΑΠΟ 3</span>
+                <button class="hint-btn" onclick="toggleHint()">💡 Βοήθεια</button>
+            </div>
+            <h2 class="mission-title" id="mission-title">Κεντρική Δεξαμενή Ενέργειας</h2>
+            <p class="mission-desc" id="mission-desc">Κατασκεύασε ένα ορθογώνιο παραλληλεπίπεδο με όγκο ακριβώς <strong>24 m³</strong>.</p>
+            <div class="hint-box" id="hint-box"></div>
         </div>
 
         <div class="sliders-group">
             <div class="slider-item">
                 <div class="slider-label">
-                    <span>Μήκος (α)</span>
-                    <span class="slider-val"><span id="val-l">2</span> m</span>
+                    <span class="dim-name"><span class="dot dot-l"></span> Μήκος (α)</span>
+                    <span class="val-pill pill-l"><span id="val-l">4</span> m</span>
                 </div>
-                <input type="range" id="slider-l" min="1" max="6" value="2" oninput="updateDimensions()">
+                <input type="range" id="slider-l" min="1" max="6" value="4" oninput="updateDimensions(true)">
             </div>
             <div class="slider-item">
                 <div class="slider-label">
-                    <span>Πλάτος (β)</span>
-                    <span class="slider-val"><span id="val-w">2</span> m</span>
+                    <span class="dim-name"><span class="dot dot-w"></span> Πλάτος (β)</span>
+                    <span class="val-pill pill-w"><span id="val-w">2</span> m</span>
                 </div>
-                <input type="range" id="slider-w" min="1" max="6" value="2" oninput="updateDimensions()">
+                <input type="range" id="slider-w" min="1" max="6" value="2" oninput="updateDimensions(true)">
             </div>
             <div class="slider-item">
                 <div class="slider-label">
-                    <span>Ύψος (υ)</span>
-                    <span class="slider-val"><span id="val-h">2</span> m</span>
+                    <span class="dim-name"><span class="dot dot-h"></span> Ύψος (υ)</span>
+                    <span class="val-pill pill-h"><span id="val-h">2</span> m</span>
                 </div>
-                <input type="range" id="slider-h" min="1" max="6" value="2" oninput="updateDimensions()">
+                <input type="range" id="slider-h" min="1" max="6" value="2" oninput="updateDimensions(true)">
             </div>
         </div>
 
         <div class="live-readout">
-            <span>Τρέχων Όγκος (V = α · β · υ):</span>
-            <strong><span id="current-vol">8</span> m³</strong>
+            <span>Υπολογισμός Όγκου (V = α · β · υ):</span>
+            <strong><span id="current-vol">16</span> m³</strong>
         </div>
 
         <button class="action-btn" onclick="checkSolution()">Έλεγχος Κατασκευής</button>
@@ -387,37 +544,91 @@
     </aside>
 
     <footer>
-        🖱️ Σύρε για περιστροφή 3D · Ροδέλα για zoom · 1 τετράγωνο = 1 m
+        🖱️ Σύρε για περιστροφή · Ροδέλα για zoom · 1 τετράγωνο = 1 m
     </footer>
 
     <script>
-        // --- 1. ΔΕΔΟΜΕΝΑ ΑΠΟΣΤΟΛΩΝ ---
+        // --- ΗΧΗΤΙΚΑ ΕΦΕ (Web Audio API - Χωρίς εξωτερικά αρχεία) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            const now = audioCtx.currentTime;
+
+            if (type === 'tick') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(520, now);
+                osc.frequency.exponentialRampToValueAtTime(750, now + 0.04);
+                gain.gain.setValueAtTime(0.06, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            } else if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(380, now);
+                gain.gain.setValueAtTime(0.09, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+                osc.start(now);
+                osc.stop(now + 0.07);
+            } else if (type === 'success') {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.type = 'triangle';
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.frequency.setValueAtTime(freq, now + i * 0.09);
+                    g.gain.setValueAtTime(0.14, now + i * 0.09);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.35);
+                    o.start(now + i * 0.09);
+                    o.stop(now + i * 0.09 + 0.35);
+                });
+            } else if (type === 'error') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(190, now);
+                osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            }
+        }
+
+        // --- ΔΕΔΟΜΕΝΑ ΑΠΟΣΤΟΛΩΝ ---
         const missions = [
             {
-                tag: "ΑΠΟΣΤΟΛΗ 01 / ΔΕΞΑΜΕΝΗ ΝΕΡΟΥ",
-                title: "Ο Βασικός Όγκος",
-                desc: "Ο σταθμός χρειάζεται δεξαμενή χωρητικότητας ακριβώς <strong>24 m³</strong>. Ρύθμισε τις διαστάσεις (α, β, υ).",
+                tag: "ΑΠΟΣΤΟΛΗ 1 ΑΠΟ 3",
+                title: "Κεντρική Δεξαμενή Ενέργειας",
+                desc: "Κατασκεύασε ένα ορθογώνιο παραλληλεπίπεδο με όγκο ακριβώς <strong>24 m³</strong>.",
+                hint: "Σκέψου τρεις αριθμούς από το 1 έως το 6 που το γινόμενό τους δίνει 24 (π.χ. 4 × 3 × 2).",
                 validate: (l, w, h) => (l * w * h === 24),
-                successMsg: "Εξαιρετικά! Ο όγκος 24 m³ ενεργοποίησε την πρώτη δεξαμενή.",
-                errorMsg: (l, w, h) => `Ο όγκος είναι ${l*w*h} m³. Χρειαζόμαστε ακριβώς 24 m³.`
+                successMsg: "Εξαιρετικά! Ο όγκος 24 m³ ενεργοποίησε την κεντρική δεξαμενή.",
+                errorMsg: (l, w, h) => `Ο τρέχων όγκος είναι ${l*w*h} m³. Χρειαζόμαστε ακριβώς 24 m³.`
             },
             {
-                tag: "ΑΠΟΣΤΟΛΗ 02 / ΕΝΕΡΓΕΙΑΚΟΣ ΚΥΒΟΣ",
+                tag: "ΑΠΟΣΤΟΛΗ 2 ΑΠΟ 3",
                 title: "Ο Τέλειος Κύβος",
-                desc: "Κατασκεύασε έναν <strong>κύβο</strong> (όλες οι πλευρές ίσες) με συνολικό όγκο <strong>27 m³</strong>.",
+                desc: "Κατασκεύασε έναν <strong>κύβο</strong> (όλες οι ακμές ίσες) με συνολικό όγκο <strong>27 m³</strong>.",
+                hint: "Στον κύβο ισχύει α = β = υ. Ποιος αριθμός υψωμένος στην τρίτη δύναμη (α³) δίνει 27;",
                 validate: (l, w, h) => (l === w && w === h && l * w * h === 27),
                 successMsg: "Τέλεια! Ένας κύβος ακμής 3 m έχει όγκο 3³ = 27 m³.",
                 errorMsg: (l, w, h) => {
-                    if (l !== w || w !== h) return "Το σχήμα δεν είναι κύβος! Όλες οι ακμές (α, β, υ) πρέπει να είναι ίσες.";
+                    if (l !== w || w !== h) return "Το σχήμα δεν είναι κύβος! Όλες οι πλευρές πρέπει να είναι ίσες.";
                     return `Ο κύβος σου έχει όγκο ${l*w*h} m³. Στόχος: 27 m³.`;
                 }
             },
             {
-                tag: "ΑΠΟΣΤΟΛΗ 03 / ΣΤΑΘΜΟΣ ΒΑΣΗΣ",
-                title: "Περιορισμός Ύψους",
+                tag: "ΑΠΟΣΤΟΛΗ 3 ΑΠΟ 3",
+                title: "Σταθμός Βάσης (Ύψος 3m)",
                 desc: "Φτιάξε δεξαμενή όγκου <strong>36 m³</strong>, αλλά το ύψος (υ) πρέπει να είναι ακριβώς <strong>3 m</strong>.",
+                hint: "Αφού υ = 3, το εμβαδόν της βάσης (α × β) πρέπει να είναι 36 ÷ 3 = 12 m².",
                 validate: (l, w, h) => (h === 3 && l * w * h === 36),
-                successMsg: "Μπράβο! Με ύψος 3 m και εμβαδόν βάσης 12 m², πέτυχες τα 36 m³!",
+                successMsg: "Μπράβο! Με ύψος 3 m και βάση 12 m², πέτυχες τα 36 m³!",
                 errorMsg: (l, w, h) => {
                     if (h !== 3) return `Το ύψος είναι ${h} m. Η αποστολή απαιτεί ύψος υ = 3 m.`;
                     return `Το ύψος είναι σωστό, αλλά ο όγκος είναι ${l*w*h} m³ αντί για 36 m³.`;
@@ -427,16 +638,17 @@
 
         let currentMissionIdx = 0;
         let attempts = [0, 0, 0];
+        let usedHint = [false, false, false];
         let missionStars = [0, 0, 0];
 
-        // --- 2. ΡΥΘΜΙΣΗ THREE.JS (3D ΣΚΗΝΗ) ---
+        // --- THREE.JS ΣΚΗΝΗ ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x0b1120);
-        scene.fog = new THREE.FogExp2(0x0b1120, 0.035);
+        scene.background = new THREE.Color(0x070d19);
+        scene.fog = new THREE.FogExp2(0x070d19, 0.032);
 
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(9, 8, 11);
+        camera.position.set(8.5, 7.5, 10.5);
 
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -446,50 +658,53 @@
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
-        controls.maxPolarAngle = Math.PI / 2 - 0.05;
-        controls.minDistance = 5;
-        controls.maxDistance = 25;
+        controls.maxPolarAngle = Math.PI / 2 - 0.04;
+        controls.minDistance = 4;
+        controls.maxDistance = 24;
 
-        // Φωτισμός
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-        scene.add(ambientLight);
-
-        const dirLight = new THREE.DirectionalLight(0x38bdf8, 1);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.65));
+        const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.1);
         dirLight.position.set(10, 15, 10);
         scene.add(dirLight);
 
-        // Πλέγμα εδάφους (1 τετράγωνο = 1 μέτρο)
-        const gridHelper = new THREE.GridHelper(16, 16, 0x38bdf8, 0x1e293b);
+        const gridHelper = new THREE.GridHelper(16, 16, 0x38bdf8, 0x17253b);
         scene.add(gridHelper);
 
-        // Βάση νησιού
-        const baseGeo = new THREE.CylinderGeometry(8.5, 7.5, 0.6, 32);
-        const baseMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 });
+        const baseGeo = new THREE.CylinderGeometry(8.5, 7.8, 0.5, 36);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x0c1629, roughness: 0.85 });
         const baseMesh = new THREE.Mesh(baseGeo, baseMat);
-        baseMesh.position.y = -0.32;
+        baseMesh.position.y = -0.27;
         scene.add(baseMesh);
 
-        // Το 3D Παραλληλεπίπεδο (Δεξαμενή)
         const boxGeo = new THREE.BoxGeometry(1, 1, 1);
         const boxMat = new THREE.MeshPhysicalMaterial({
             color: 0x38bdf8,
             transparent: true,
-            opacity: 0.45,
+            opacity: 0.42,
             roughness: 0.1,
-            metalness: 0.1,
-            transmission: 0.4
+            transmission: 0.45
         });
         const tankMesh = new THREE.Mesh(boxGeo, boxMat);
         scene.add(tankMesh);
 
-        // Περίγραμμα ακμών
         const edgesGeo = new THREE.EdgesGeometry(boxGeo);
-        const edgesMat = new THREE.LineBasicMaterial({ color: 0x7dd3fc, linewidth: 2 });
-        const tankEdges = new THREE.LineSegments(edgesGeo, edgesMat);
-        tankMesh.add(tankEdges);
+        const edgesMat = new THREE.LineBasicMaterial({ color: 0x7dd3fc });
+        tankMesh.add(new THREE.LineSegments(edgesGeo, edgesMat));
 
-        // --- 3. ΛΟΓΙΚΗ ΠΑΙΧΝΙΔΙΟΥ ---
-        function updateDimensions() {
+        // --- ΛΟΓΙΚΗ & ΚΑΜΕΡΑ ---
+        function setCameraView(view) {
+            playSound('click');
+            document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('cam-' + view).classList.add('active');
+
+            controls.target.set(0, 1.5, 0);
+            if (view === '3d') camera.position.set(8.5, 7.5, 10.5);
+            if (view === 'front') camera.position.set(0, 3, 13);
+            if (view === 'top') camera.position.set(0, 14, 0.1);
+        }
+
+        function updateDimensions(withSound = false) {
+            if (withSound) playSound('tick');
             const l = parseInt(document.getElementById('slider-l').value);
             const w = parseInt(document.getElementById('slider-w').value);
             const h = parseInt(document.getElementById('slider-h').value);
@@ -499,11 +714,9 @@
             document.getElementById('val-h').textContent = h;
             document.getElementById('current-vol').textContent = l * w * h;
 
-            // Ενημέρωση κλίμακας 3D αντικειμένου
             tankMesh.scale.set(l, h, w);
             tankMesh.position.y = h / 2;
 
-            // Επαναφορά χρώματος αν δεν είναι λυμένο
             if (missionStars[currentMissionIdx] === 0) {
                 boxMat.color.setHex(0x38bdf8);
                 edgesMat.color.setHex(0x7dd3fc);
@@ -511,6 +724,7 @@
         }
 
         function selectMission(idx) {
+            playSound('click');
             currentMissionIdx = idx;
             const m = missions[idx];
 
@@ -521,6 +735,10 @@
             document.getElementById('mission-tag').textContent = m.tag;
             document.getElementById('mission-title').textContent = m.title;
             document.getElementById('mission-desc').innerHTML = m.desc;
+
+            const hintBox = document.getElementById('hint-box');
+            hintBox.style.display = 'none';
+            hintBox.textContent = m.hint;
 
             const fb = document.getElementById('feedback-box');
             fb.className = 'feedback-box';
@@ -535,6 +753,17 @@
             }
         }
 
+        function toggleHint() {
+            playSound('click');
+            const hintBox = document.getElementById('hint-box');
+            if (hintBox.style.display === 'block') {
+                hintBox.style.display = 'none';
+            } else {
+                hintBox.style.display = 'block';
+                usedHint[currentMissionIdx] = true;
+            }
+        }
+
         function checkSolution() {
             const l = parseInt(document.getElementById('slider-l').value);
             const w = parseInt(document.getElementById('slider-w').value);
@@ -543,10 +772,12 @@
             const fb = document.getElementById('feedback-box');
 
             if (m.validate(l, w, h)) {
-                // Υπολογισμός αστεριών
+                playSound('success');
                 if (missionStars[currentMissionIdx] === 0) {
-                    const earned = attempts[currentMissionIdx] === 0 ? 3 : (attempts[currentMissionIdx] === 1 ? 2 : 1);
-                    missionStars[currentMissionIdx] = earned;
+                    let stars = 3;
+                    if (usedHint[currentMissionIdx] || attempts[currentMissionIdx] === 1) stars = 2;
+                    if (attempts[currentMissionIdx] >= 2) stars = 1;
+                    missionStars[currentMissionIdx] = stars;
                     updateScoreUI();
                 }
 
@@ -554,12 +785,12 @@
                 edgesMat.color.setHex(0x6ee7b7);
 
                 fb.className = 'feedback-box success';
-                fb.innerHTML = `✅ ${m.successMsg} (+${missionStars[currentMissionIdx]} ★)`;
-                document.querySelectorAll('.tab-btn')[currentMissionIdx].classList.add('completed');
+                fb.innerHTML = `✅ ${m.successMsg}`;
             } else {
+                playSound('error');
                 attempts[currentMissionIdx]++;
-                boxMat.color.setHex(0xef4444);
-                edgesMat.color.setHex(0xfca5a5);
+                boxMat.color.setHex(0xf43f5e);
+                edgesMat.color.setHex(0xfda4af);
 
                 fb.className = 'feedback-box error';
                 fb.innerHTML = `❌ ${m.errorMsg(l, w, h)}`;
@@ -567,27 +798,49 @@
         }
 
         function updateScoreUI() {
-            const completed = missionStars.filter(s => s > 0).length;
-            const totalStars = missionStars.reduce((a, b) => a + b, 0);
-            document.getElementById('completed-count').textContent = completed;
-            document.getElementById('stars-count').textContent = totalStars;
+            const total = missionStars.reduce((a, b) => a + b, 0);
+            document.getElementById('stars-count').textContent = total;
+
+            missionStars.forEach((s, i) => {
+                const tab = document.getElementById('tab-' + i);
+                const starSpan = document.getElementById('tstars-' + i);
+                if (s > 0) {
+                    tab.classList.add('solved');
+                    starSpan.textContent = '★'.repeat(s) + '☆'.repeat(3 - s);
+                } else {
+                    tab.classList.remove('solved');
+                    starSpan.textContent = '☆☆☆';
+                }
+            });
         }
 
-        // Responsive window
+        function resetGame() {
+            playSound('click');
+            attempts = [0, 0, 0];
+            usedHint = [false, false, false];
+            missionStars = [0, 0, 0];
+            document.getElementById('slider-l').value = 4;
+            document.getElementById('slider-w').value = 2;
+            document.getElementById('slider-h').value = 2;
+            updateScoreUI();
+            selectMission(0);
+            updateDimensions(false);
+        }
+
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
 
-        // Animation Loop
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
             renderer.render(scene, camera);
         }
 
-        updateDimensions();
+        selectMission(0);
+        updateDimensions(false);
         animate();
     </script>
 </body>
